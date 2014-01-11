@@ -4,7 +4,6 @@ use work.T3defs.all;
 
 entity AITurn is
 	port (
---		AItClk : in std_logic;
 		AITrst : in std_logic;
 		AITgrid : in T3grid;
 		nMoves : in integer;
@@ -14,14 +13,12 @@ end AITurn;
 architecture AITurn_arch of AITurn is
 	component checkTwo 
 		port (
---			C2Clk : in std_logic;
 			C2grid : in T3grid;
 			C2Move : out T3move := NONE);
 	end component;
 	
 	component AIpick
 		port (
---			AIpClk : in std_logic;
 			AIPrst : in std_logic;
 			winMV, deffMV : in T3move;
 
@@ -50,7 +47,7 @@ architecture AITurn_arch of AITurn is
 	
 	begin
 		U1: checkTwo port map (AITgrid,WINMV);
-		U2: checkTwo port map (invGrid(AITgrid),DEFFMV); --nótese que gridX = not gridO de manera intencionada. ("not grid" era ilegal así que tuve que escribir la función).
+		U2: checkTwo port map (invGrid(AITgrid),DEFFMV); --note that gridX = not gridO
 		U3: AIpick port map(AITrst, WINMV,DEFFMV, AITgrid,nMoves,outMove);
 
 	process(outMove, AITrst)
